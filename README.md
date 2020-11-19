@@ -1,4 +1,4 @@
-# vue-project
+# Cetriolo - Frontend
 
 ## Project setup
 ```
