@@ -4,16 +4,31 @@
             <img class="logo-image" alt="Cetriolo logo" src="../assets/logo.png">
             <h1 class="logo-text">Cetriolo</h1>
         </div>
-        <span>Email</span>
-        <input class="form-input"> 
-        <span>Senha</span>
-        <input class="form-input">
-        <button class="form-button">Fazer Login</button>
+        <custom-input fieldName="Email" v-model="email" type="email" placeholder="email@example.com" />
+        <custom-input fieldName="Senha" v-model="password" type="password" />
+        <button class="form-button" @click="send()">Fazer Login</button>
     </div>
 </template>
 
 <script>
+import CustomInput from '@/components/CustomInput.vue'
 
+export default {
+    components: {
+        CustomInput
+    },
+    data () {
+        return {
+            email: '',
+            password: ''
+        }
+    },
+    methods: {
+        send () {
+            console.log(this.email);
+        }
+    }
+}
 </script>
 
 <style>
@@ -26,14 +41,6 @@
     border-radius: 5px;
     box-shadow: 0px 0px 10px #91B591;
     width: 250px;
-}
-
-.form-input {
-    border: transparent;
-    border-bottom: 2px solid #3A663E;
-    height: 20px;
-    padding: 5px;
-    margin-bottom: 20px;
 }
 
 .form-button {
