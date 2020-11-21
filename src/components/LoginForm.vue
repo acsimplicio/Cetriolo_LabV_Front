@@ -1,17 +1,19 @@
 <template>
-    <div class="form-card">
+    <form @submit.prevent="send()" class="form-card">
         <div class="logo-container">
             <img class="logo-image" alt="Cetriolo logo" src="../assets/logo.png">
             <h1 class="logo-text">Cetriolo</h1>
         </div>
-        <custom-input fieldName="Email" v-model="email" type="email" placeholder="email@example.com" />
+        <custom-input fieldName="Email" v-model="email" type="email" placeholder="Ex: email@example.com" />
         <custom-input fieldName="Senha" v-model="password" type="password" />
-        <button class="form-button" @click="send()">Fazer Login</button>
-    </div>
+        <button class="form-button" type="submit">Fazer Login</button>
+    </form>
 </template>
 
 <script>
 import CustomInput from '@/components/CustomInput.vue'
+import { mapMutations } from 'vuex'
+import axios from 'axios'
 
 export default {
     components: {
@@ -23,9 +25,32 @@ export default {
             password: ''
         }
     },
+    computed: {
+        currentUserToken: {
+            get () {
+                return this.$store.state.currentUserToken
+            },
+            set (value) {
+                this.setCurrentUserToken(value);
+            }
+        }
+    },
     methods: {
+        ...mapMutations([
+            'setCurrentUserToken'
+        ]),
         send () {
-            console.log(this.email);
+            axios.post('login',
+            { params: { username: this.email, password: this.password }, headers: { Accept: 'application/json' } })
+            .then(res => {
+                this.currentUserToken = res.data.token
+            })
+            .catch(error => {
+                console.log(error);
+                if (error.response.status === 401) {
+                    console.log("Usuário ou senha inválido");
+                }
+            })
         }
     }
 }
@@ -39,7 +64,6 @@ export default {
     background-color: #FFF;
     padding: 30px 25px;
     border-radius: 5px;
-    box-shadow: 0px 0px 10px #91B591;
     width: 250px;
 }
 
