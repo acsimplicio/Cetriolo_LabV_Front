@@ -6,7 +6,11 @@
         </div>
         <custom-input fieldName="Email" v-model="email" type="email" placeholder="Ex: email@example.com" />
         <custom-input fieldName="Senha" v-model="password" type="password" />
-        <button class="form-button" type="submit">Fazer Login</button>
+        <span v-if="error" class="login-error">{{error}}</span>
+        <button class="form-button" type="submit">
+            <span v-if="!loading">Fazer Login</span>
+            <div v-else class="login-loader"></div>
+        </button>
     </form>
 </template>
 
@@ -22,35 +26,43 @@ export default {
     data () {
         return {
             email: '',
-            password: ''
+            password: '',
+            error: null,
+            loading: false
         }
     },
     computed: {
-        currentUserToken: {
+        currentUser: {
             get () {
-                return this.$store.state.currentUserToken
+                return this.$store.state.currentUser
             },
             set (value) {
-                this.setCurrentUserToken(value);
+                this.setCurrentUser(value);
             }
         }
     },
     methods: {
         ...mapMutations([
-            'setCurrentUserToken'
+            'setCurrentUser'
         ]),
         send () {
+            this.loading = true;
+
             axios.post('login',
-            { params: { username: this.email, password: this.password }, headers: { Accept: 'application/json' } })
+            { username: this.email, password: this.password },
+            { headers: { Accept: 'application/json' } })
             .then(res => {
-                this.currentUserToken = res.data.token
+                this.error = null;
+                const user = { 'token': res.data.token, 'autorizacao': res.data.autorizacao }
+                this.currentUser = user;
+                this.$router.push('/home');
             })
             .catch(error => {
-                console.log(error);
                 if (error.response.status === 401) {
-                    console.log("Usuário ou senha inválido");
+                    this.error = "Usuário ou senha inválido";
                 }
             })
+            .finally(() => this.loading = false)
         }
     }
 }
@@ -93,5 +105,27 @@ export default {
     font-size: 50px;
     margin-left: 5px;
     color:#194720;
+}
+
+.login-error {
+    font-size: 12px;
+    color: red;
+    margin-bottom: 10px;
+}
+
+.login-loader {
+    border: 5px solid #f3f3f32b;
+    border-top: 5px solid #feffff;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 </style>

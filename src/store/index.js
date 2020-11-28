@@ -5,11 +5,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-      currentUserToken: ''
+      currentUser: {}
   },
   mutations: {
-      setCurrentUserToken (state, value) {
-          state.currentUserToken = value
+      setCurrentUser (state, value) {
+          state.currentUser = value
       }
   },
   actions: {
