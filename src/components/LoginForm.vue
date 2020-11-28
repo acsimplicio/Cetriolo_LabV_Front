@@ -1,9 +1,6 @@
 <template>
     <form @submit.prevent="send()" class="form-card">
-        <div class="logo-container">
-            <img class="logo-image" alt="Cetriolo logo" src="../assets/logo.png">
-            <h1 class="logo-text">Cetriolo</h1>
-        </div>
+        <logo class="login-logo" />
         <custom-input fieldName="Email" v-model="email" type="email" placeholder="Ex: email@example.com" />
         <custom-input fieldName="Senha" v-model="password" type="password" />
         <span v-if="error" class="login-error">{{error}}</span>
@@ -16,12 +13,14 @@
 
 <script>
 import CustomInput from '@/components/CustomInput.vue'
+import Logo from '@/components/Logo.vue'
 import { mapMutations } from 'vuex'
 import axios from 'axios'
 
 export default {
     components: {
-        CustomInput
+        CustomInput,
+        Logo
     },
     data () {
         return {
@@ -68,7 +67,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .form-card {
     margin: 0 auto;
     display: flex;
@@ -88,23 +87,9 @@ export default {
     border-radius: 5px;
 }
 
-.logo-container {
-    display: flex;
+.login-logo {
     margin: 0 auto;
-    width: 200px;
-    align-items: center;
     margin-bottom: 20px;
-}
-
-.logo-image {
-    height: 50px;
-}
-
-.logo-text {
-    font-family: "Roboto Condensed";
-    font-size: 50px;
-    margin-left: 5px;
-    color:#194720;
 }
 
 .login-error {

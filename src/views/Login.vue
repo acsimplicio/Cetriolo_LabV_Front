@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="login">
     <login-form />
   </div>
 </template>
@@ -9,7 +9,7 @@
 import LoginForm from '@/components/LoginForm.vue'
 
 export default {
-  name: 'Home',
+  name: 'Login',
   components: {
       LoginForm
   }
@@ -17,7 +17,7 @@ export default {
 </script>
 
 <style scoped>
-.home {
+.login {
     background-color: #3aaf83;
     height: 100vh;
     width: 100vw;
