@@ -1,40 +1,54 @@
 <template>
     <div class="home">
-        <div class="header">
-            <logo />
-            <button class="logout-button">Sair</button>
-        </div>
+        <Header />
+        <card-tarefa v-if="currentUser.autorizacao == 'ROLE_ALUNO'" :materias="materias" />
     </div>
 </template>
 
 <script>
-import Logo from '@/components/Logo.vue'
+import CardTarefa from '@/components/CardTarefa.vue'
+import Header from '@/components/Header.vue'
+import axios from 'axios'
 
 export default {
     components: {
-        Logo
+        CardTarefa,
+        Header
+    },
+    data () {
+        return {
+            materias: []
+        }
+    },
+    computed: {
+        currentUser: {
+            get () {
+                return this.$store.state.currentUser
+            },
+            set (value) {
+                this.setCurrentUser(value);
+            }
+        }
+    },
+    mounted () {
+        axios.get('materia',
+        { headers: { Accept: 'application/json' } })
+        .then(res => {
+            this.materias = res.data;
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
 }
 </script>
 
 <style scoped>
-.header {
+.home {
+    background-color: #F9F2EA;
+    height: 100vh;
     display: flex;
-    justify-content: space-between;
-    position: fixed;
-    top: 0;
-    width: 97%;
-    background-color: #3aaf83;
-    padding: 12px 40px;
-}
-
-.logout-button {
-    font-family: "Roboto";
-    height: 40px;
-    width: 80px;
-    background-color: #194720;
-    color: white;
-    border: transparent;
-    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
 }
 </style>

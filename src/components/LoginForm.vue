@@ -52,7 +52,7 @@ export default {
             { headers: { Accept: 'application/json' } })
             .then(res => {
                 this.error = null;
-                const user = { 'token': res.data.token, 'autorizacao': res.data.autorizacao }
+                const user = { 'token': res.data.token, 'autorizacao': res.data.autorizacao, 'email': res.data.username }
                 this.currentUser = user;
                 this.$router.push('/home');
             })
