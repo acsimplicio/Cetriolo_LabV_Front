@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 
-axios.defaults.baseURL = 'https://8080-f7ac5ee5-9f8a-41ed-8647-f5cd519e3452.ws-us02.gitpod.io/cetriolo'
+axios.defaults.baseURL = 'https://8080-c06a2dea-0a6d-4573-b195-f69cbc486c2e.ws-us02.gitpod.io/cetriolo'
 
 Vue.config.productionTip = false
 
