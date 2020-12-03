@@ -51,8 +51,11 @@ export default {
     },
     methods: {
         extractFileName () {
+            // Pega o componente de id fileInput
            const input = document.getElementById('fileInput');
+           // Extrai o nome do arquivo do valor do componente usando uma RegEx
            let fileName = input.value.split(/(\\|\/)/g).pop();
+           // Da set no nomeArquivo como o nome extraído
            this.tarefa.nomeArquivo = fileName;
         },
         send () {
