@@ -2,17 +2,20 @@
     <div class="home">
         <Header />
         <card-tarefa v-if="currentUser.autorizacao == 'ROLE_ALUNO'" :materias="materias" />
+        <card-delete v-if="currentUser.autorizacao == 'ROLE_ADMIN'" :materias="materias" />
     </div>
 </template>
 
 <script>
 import CardTarefa from '@/components/CardTarefa.vue'
+import CardDelete from '@/components/CardDelete.vue'
 import Header from '@/components/Header.vue'
 import axios from 'axios'
 
 export default {
     components: {
         CardTarefa,
+        CardDelete,
         Header
     },
     data () {
