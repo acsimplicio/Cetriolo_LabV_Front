@@ -17,6 +17,5 @@
         padding: 20px;
         border-radius: 5px;
         box-shadow: 1px 1px 5px #a08f7b;
-        height: 30%;
     }
 </style>

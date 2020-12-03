@@ -1,8 +1,10 @@
 <template>
     <div class="home">
         <Header />
-        <card-tarefa v-if="currentUser.autorizacao == 'ROLE_ALUNO'" :materias="materias" />
-        <card-admin v-if="currentUser.autorizacao == 'ROLE_ADMIN'" />
+        <div class="home-content">
+            <card-tarefa v-if="currentUser.autorizacao == 'ROLE_ALUNO'" :materias="materias" />
+            <card-admin v-if="currentUser.autorizacao == 'ROLE_ADMIN'" />
+        </div>
     </div>
 </template>
 
@@ -52,5 +54,9 @@ export default {
     height: 100vh;
     display: flex;
     justify-content: center;
+}
+
+.home-content {
+    margin-top: 120px;
 }
 </style>
