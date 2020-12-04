@@ -2,18 +2,18 @@
     <div class="home">
         <Header />
         <div class="home-content">
-            <card-delete/>
+            <card-usuario-details/>
         </div>
     </div>
 </template>
 
 <script>
-import CardDelete from '@/components/CardDelete.vue'
+import CardUsuarioDetails from '@/components/CardUsuarioDetails.vue'
 import Header from '@/components/Header.vue'
 
 export default {
     components: {
-        CardDelete,
+        CardUsuarioDetails,
         Header
     }
 }

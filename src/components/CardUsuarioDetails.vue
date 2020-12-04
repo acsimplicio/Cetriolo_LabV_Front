@@ -1,17 +1,26 @@
 <template>
-    <form class="card-delete" @submit.prevent="deletar()"> 
-        <div class="card-delete-title">Deletar usuário</div>
+    <form class="card-delete"> 
+        <div class="card-delete-title">Detalhes do Usuário</div>
         <div class="divider" />
         <span class="card-input-name">Usuário</span>
-        <select v-model="usuarioId">
-            <option v-for="usuario in usuarios" :key="usuario.id" :value="usuario.id" >
+        <select class="card-select" v-model="usuarioSelecionado" @change="igualaNome()">
+            <option v-for="usuario in usuarios" :key="usuario.id" :value="usuario" >
                 {{usuario.nome}}
             </option>
         </select>
+        <span>Nome</span>
+        <input class="input-textbox" v-model="usuarioNome"/>
+        <span>Email</span>
+        <input type="email" class="input-textbox" v-model="usuarioSelecionado.email"/>
+        <span>Telefone</span>
+        <input class="input-textbox" v-model="usuarioSelecionado.telefone"/>
         <span v-if="mensagem">{{mensagem}}</span>
-        <button class="card-send-button" type="submit">
-            <span v-if="!loading && !success">Deletar</span>
-            <div class="check" v-else-if="success" />
+        <button class="card-send-button" @click="editar($event)">
+            <span v-if="!loading">Salvar Alterações</span>
+            <div v-else class="loader"></div>
+        </button>
+        <button class="card-send-button" @click="deletar($event)">
+            <span v-if="!loading">Deletar</span>
             <div v-else class="loader"></div>
         </button>
     </form>
@@ -29,10 +38,14 @@ export default {
     data () {
         return {
             usuarios: [],
-            usuarioId: '',
+            usuarioNome: '',
+            usuarioSelecionado: {
+                nome: '',
+                email: '',
+                telefone: ''
+            },
             mensagem: '',
             loading: false,
-            success: false
         }
     },
     computed: {
@@ -57,13 +70,13 @@ export default {
         })
     },
     methods: {
-        deletar () {
+        deletar (e) {
+            e.preventDefault()
             this.loading = true
 
-            axios.delete(`usuario/delete/${this.usuarioId}`,
+            axios.delete(`usuario/delete/${this.usuarioSelecionado.id}`,
             { headers: { Accept: 'application/json', Authorization: `Bearer ${this.currentUser.token}` } })
             .then((res) => {
-                this.success = true
                 this.mensagem = res.data
             })
             .catch(error => {
@@ -73,6 +86,30 @@ export default {
             .finally(() => {
                 this.loading = false
             })
+        },
+
+        editar (e) {
+            e.preventDefault()
+            this.loading = true
+            this.usuarioSelecionado.nome = this.usuarioNome
+
+            axios.put('/usuario/alterar',
+            this.usuarioSelecionado,
+            { headers: { Accept: 'application/json', Authorization: `Bearer ${this.currentUser.token}` } })
+            .then(() => {
+                this.mensagem = "Usuario pimbado com sucesso!"
+            })
+            .catch(error => {
+                console.log(error)
+                this.mensagem = error
+            })
+            .finally(() => {
+                this.loading = false
+            })
+        },
+
+        igualaNome () {
+            this.usuarioNome = this.usuarioSelecionado.nome
         }
     }
 }
@@ -86,6 +123,7 @@ export default {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 1px 1px 5px #a08f7b;
+    width: 320px;
 }
 
 .card-delete-title {
@@ -137,5 +175,17 @@ export default {
   width: 7px;
   border-bottom: 3px solid white;
   border-right: 3px solid white;
+}
+
+.input-textbox {
+    border: transparent;
+    border-bottom: 2px solid #3A663E;
+    height: 20px;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+.card-select {
+    margin-bottom: 15px
 }
 </style>

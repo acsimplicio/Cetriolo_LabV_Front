@@ -1,21 +1,17 @@
 <template>
-    <div class="card-tarefa">
-        <span class="card-tarefa-title">
-            Tarefas
+    <div class="card-materia">
+        <span class="card-materia-title">
+            Materias
         </span>
         <table>
             <tr>
-                <th>Usuario</th>
-                <th>Materia</th>
-                <th>Nome do Arquivo</th>
-                <th>Nota</th>
+                <th>Id</th>
+                <th>Nome</th>
             </tr>
-            <!-- <tr v-for="tarefa in tarefas" :key="tarefa.nomeArquivo">
-                <td>{{tarefa.usuario.nome}} ({{tarefa.usuario.email}})</td>
-                <td>{{tarefa.materia.nome}}</td>
-                <td>{{tarefa.nomeArquivo}}</td>
-                <td>{{tarefa.nota?tarefa.nota:"-"}}</td>
-            </tr> -->
+            <tr v-for="materia in materias" :key="materia.id">
+                <td>{{materia.id}}</td>
+                <td>{{materia.nome}}</td>
+            </tr>
         </table>
     </div>
 </template>
@@ -44,7 +40,7 @@ export default {
 </script>
 
 <style scoped>
-    .card-tarefa {
+    .card-materia {
         display: flex;
         flex-direction: column;
         background-color: #fff;
@@ -53,7 +49,7 @@ export default {
         box-shadow: 1px 1px 5px #a08f7b;
     }
 
-    .card-tarefa-title {
+    .card-materia-title {
         margin: 0 auto 15px;
         font-weight: 700;
         font-size: 20px;
