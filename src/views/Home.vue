@@ -2,21 +2,21 @@
     <div class="home">
         <Header />
         <div class="home-content">
-            <card-tarefa v-if="currentUser.autorizacao == 'ROLE_ALUNO'" :materias="materias" />
+            <card-postar-tarefa v-if="currentUser.autorizacao == 'ROLE_ALUNO'" :materias="materias" />
             <card-admin v-if="currentUser.autorizacao == 'ROLE_ADMIN'" />
         </div>
     </div>
 </template>
 
 <script>
-import CardTarefa from '@/components/CardTarefa.vue'
+import CardPostarTarefa from '@/components/CardPostarTarefa.vue'
 import CardAdmin from '@/components/CardAdmin.vue'
 import Header from '@/components/Header.vue'
 import axios from 'axios'
 
 export default {
     components: {
-        CardTarefa,
+        CardPostarTarefa,
         CardAdmin,
         Header
     },
